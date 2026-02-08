@@ -1,115 +1,267 @@
-# Online Quiz Management System
+# Online Quiz Management System - Backend
 
 ## 📌 Project Overview
 
-The **Online Quiz Management System** is a Java-based web application developed as part of the **Object-Oriented Programming (OOP)** course project.
-It allows administrators to create and manage quizzes, while students can take quizzes online and receive instant results.
-The system follows **OOP principles** and is built using **Java & Spring Boot** for scalability and maintainability.
+The **Online Quiz Management System** is a robust Java-based web application developed as part of the **Object-Oriented Programming (OOP)** course project. It serves as the backbone for managing quizzes, questions, students, and results, adhering to strict software engineering principles.
 
 ---
 
-## 🎯 Objectives
+## 🏗 Backend Architecture Style
 
-* Apply **core OOP concepts** in a real-world project
-* Understand **layered architecture** using Spring Boot
-* Implement **CRUD operations**, authentication, and business logic
-* Design a modular and extensible quiz system
+We follow a **Layered Architecture (MVC-inspired)** to ensure separation of concerns and maintainability.
 
----
+```mermaid
+graph TD
+    Controller[Controller Layer] --> Service[Service Layer]
+    Service --> Repository[Repository Layer]
+    Repository --> Database[(Database)]
+```
 
-## 🚀 Core Features
-
-### 🔐 Admin Module
-
-* Create and manage quizzes
-* Add multiple-choice questions
-* Define subjects/categories
-* View student quiz results
-* Control quiz time limits
-
-### 🎓 Student Module
-
-* Secure login system
-* Select subjects and available quizzes
-* Attempt quizzes within a fixed time
-* View results immediately after submission
-
-### 🧮 Automatic Scoring
-
-* Quiz answers are evaluated automatically
-* Scores are calculated instantly upon completion
-
-### ⏱ Timer Functionality
-
-* Each quiz has a predefined time limit
-* Quiz auto-submits when time expires
+Each layer has a distinct responsibility:
+1.  **Controller Layer**: Handles HTTP requests and responses.
+2.  **Service Layer**: Contains business logic and transactional boundaries.
+3.  **Repository Layer**: Abstraction for data access (talks to the database).
+4.  **Database**: Persistent storage.
 
 ---
 
-## 🧱 OOP Concepts Used
+## � Backend Package Structure
 
-* **Encapsulation** – Private fields with getters/setters
-* **Inheritance** – Base user classes extended by Admin & Student
-* **Polymorphism** – Flexible service implementations
-* **Abstraction** – Interfaces for service layers
-* **Modularity** – Separation of concerns (Controller, Service, Repository)
-
----
-
-## 🛠 Technology Stack
-
-* **Language:** Java
-* **Framework:** Spring Boot
-* **Architecture:** MVC (Model-View-Controller)
-* **Database:** MySQL / H2 (configurable)
-* **ORM:** Spring Data JPA (Hibernate)
-* **Build Tool:** Maven
-* **IDE:** IntelliJ IDEA / Eclipse
-
----
-
-## 📂 Project Structure
+The project follows a standard industry-grade package structure:
 
 ```
-src/main/java
- ├── controller
- ├── service
- ├── repository
- ├── model
- └── OnlineQuizApplication.java
+com.quiz
+ ├── controller   # REST Endpoints
+ ├── service      # Business Logic Interfaces
+ │    └── impl    # Service Implementations
+ ├── repository   # Data Access Interfaces
+ ├── model        # JPA Entities (Domain Model)
+ ├── dto          # Data Transfer Objects
+ └── config       # Configuration Classes
 ```
+
+---
+
+## 🧱 Backend Layer Responsibilities
+
+### 3.1 Controller Layer
+*   **Responsibility**: Accept HTTP requests, validate input, call service methods, and return responses.
+*   **Characteristics**: Thin, no business logic.
+
+```java
+@RestController
+@RequestMapping("/api/student")
+public class StudentController {
+    // Delegates to Service Layer
+}
+```
+
+### 3.2 Service Layer (OOP Core)
+*   **Responsibility**: Core business logic, transactional management.
+*   **OOP Principles**: Heavy use of **Abstraction** and **Polymorphism**.
+
+```java
+public interface QuizService {
+    int calculateScore(...);
+}
+
+@Service
+public class QuizServiceImpl implements QuizService {
+    // Implementation details
+}
+```
+
+### 3.3 Repository Layer
+*   **Responsibility**: Database communication. (No business logic here).
+*   **Technology**: Spring Data JPA.
+
+```java
+public interface QuizRepository extends JpaRepository<Quiz, Long> {
+}
+```
+
+---
+
+## 🏛 Entity Design (Domain Model)
+
+Entities represent real-world objects and use **Inheritance** and **Encapsulation** effectively.
+
+### Hierarchy
+*   **User** (Abstract Base Class)
+    *   **Admin** (Extends User)
+    *   **Student** (Extends User)
+*   **Subject**
+*   **Quiz**
+*   **Question**
+*   **Result**
+
+### OOP Principles Applied
+*   **Abstraction**: `User` is abstract; cannot be instantiated directly.
+*   **Inheritance**: `Admin` and `Student` inherit common fields (id, name, email) from `User`.
+*   **Encapsulation**: All fields are `private` with public getters/setters.
+*   **Polymorphism**: Used in service interfaces and potential user processing.
+
+---
+
+## � Database Design Principles
+
+### 5.1 Normalization
+*   Ensures no duplicate data.
+*   Maintains data integrity.
+
+### 5.2 Relationships
+*   **One Subject → Many Quizzes**
+*   **One Quiz → Many Questions**
+*   **One Student → Many Results**
+
+Mapped using JPA annotations:
+```java
+@OneToMany(mappedBy = "...")
+@ManyToOne
+```
+
+---
+
+## � Backend Design Principles
+
+We adhere to SOLID principles to ensure code quality.
+
+### 6.1 Single Responsibility Principle (SRP)
+*   **Controller** handles HTTP.
+*   **Service** handles Logic.
+*   **Repository** handles Data.
+*   *Result*: No "God Classes".
+
+### 6.2 Open–Closed Principle (OCP)
+The system is designed to be extended without modifying existing code.
+*   *Example*: Adding a new `QuizType` or `UserRole` does not break the core logic.
+
+### 6.3 Dependency Injection (DI)
+We use Spring's Inversion of Control (IoC) to manage dependencies, promoting **loose coupling**.
+
+```java
+@Autowired
+private final QuizService quizService; // Constructor Injection
+```
+
+### 6.4 Don’t Repeat Yourself (DRY)
+*   Shared logic is centralized in Service methods.
+*   Base classes reduce code duplication in Entities.
+
+---
+
+## 🔒 Security by Design
+Even without complex security frameworks like Spring Security (in the initial phase), the design is secure:
+*   **Server-Side Validation**: Never trust the client.
+*   **Secure Data Flow**: Correct answers are calculated on the backend and never sent to the frontend during the quiz.
+
+---
+
+## 📡 API Design & Endpoints
+
+### Overview
+*   **Base URL**: `/api`
+*   **Style**: RESTful, JSON-based, Stateless
+*   **Architecture**: Backend-controlled logic
+
+### 🔐 Part 1: Authentication APIs (Common)
+Mandatory endpoints for user access.
+
+| Method | Endpoint | Purpose |
+| :--- | :--- | :--- |
+| `POST` | `/api/auth/register` | Create a new student account (Used by Frontend Register page) |
+| `POST` | `/api/auth/login` | Authenticate user & identify role (Admin/Student) |
+| `POST` | `/api/auth/logout` | End session (Logical logout) |
+
+### 🛠 Part 2: Admin APIs
+Admin controls content (subjects, quizzes, questions), not users’ answers.
+
+#### 🧠 Subject Management
+| Method | Endpoint | Purpose |
+| :--- | :--- | :--- |
+| `POST` | `/api/admin/subjects` | Add new quiz subject (e.g., Math, ICT) |
+| `GET` | `/api/admin/subjects` | View all subjects (Needed before creating quizzes) |
+
+#### 📝 Quiz Management
+| Method | Endpoint | Purpose |
+| :--- | :--- | :--- |
+| `POST` | `/api/admin/quizzes` | Create a quiz under a subject & set duration |
+| `GET` | `/api/admin/quizzes/{subjectId}` | View quizzes of a specific subject |
+
+#### ❓ Question Management
+| Method | Endpoint | Purpose |
+| :--- | :--- | :--- |
+| `POST` | `/api/admin/quizzes/{quizId}/questions` | Add MCQ question to quiz |
+| `GET` | `/api/admin/quizzes/{quizId}/questions` | Preview quiz questions (Admin view) |
+
+#### 📊 Result Monitoring
+| Method | Endpoint | Purpose |
+| :--- | :--- | :--- |
+| `GET` | `/api/admin/results` | View all student quiz results |
+| `GET` | `/api/admin/results/quiz/{quizId}` | View performance of students for one quiz |
+
+### 🎓 Part 3: Student APIs
+Students consume quizzes and view their own results.
+
+#### 📚 Subject & Quiz Access
+| Method | Endpoint | Purpose |
+| :--- | :--- | :--- |
+| `GET` | `/api/student/subjects` | Show subject list on dashboard |
+| `GET` | `/api/student/quizzes/{subjectId}` | Student selects quiz to attempt |
+
+#### 🧪 Quiz Attempt Flow
+| Method | Endpoint | Purpose |
+| :--- | :--- | :--- |
+| `GET` | `/api/student/quiz/{quizId}` | **Start Quiz**: Fetch metadata & questions (WITHOUT correct answers) |
+| `POST` | `/api/student/quiz/{quizId}/submit` | **Submit Quiz**: Backend calculates score & stores result |
+
+#### 📈 Result Access
+| Method | Endpoint | Purpose |
+| :--- | :--- | :--- |
+| `GET` | `/api/student/results` | Student views past quiz scores |
+| `GET` | `/api/student/results/{resultId}` | View detailed performance of one quiz |
+
+### 🔹 Optional API Support
+*   `PUT /api/student/profile` - Update Profile
+*   `DELETE /api/admin/quizzes/{quizId}` - Delete Quiz
+
+---
+
+## ⚠️ Error Handling Strategy
+*   Global Exception Handling using `@ControllerAdvice`.
+*   Returns proper **HTTP Status Codes** (200, 400, 404, 500).
+*   Friendly error messages, avoiding stack trace exposure to clients.
+
+---
+
+## 🎓 Academic Justification
+
+> "We followed a layered backend architecture with strong separation of concerns, ensuring clean OOP design, testability, and maintainability."
+
+This architecture demonstrates a strong grasp of:
+*   **Software Architecture** (Layered/MVC)
+*   **Object-Oriented Design** (Inheritance, Polymorphism, Encapsulation)
+*   **Clean Code Principles** (SOLID, DRY)
 
 ---
 
 ## ⚙️ Setup & Run Instructions
 
-1. Clone the repository
-
-   ```bash
-   git clone https://github.com/your-username/online-quiz-system.git
-   ```
-2. Open the project in your IDE
-3. Configure database settings in `application.properties`
-4. Run the Spring Boot application
-5. Access the app via browser
-
----
-
-## 📚 Academic Context
-
-* **Course:** Object-Oriented Programming (OOP)
-* **Level:** Undergraduate
-* **Purpose:** Academic project submission
-* **Focus:** Java, OOP principles, backend development
+1.  **Clone the repository**
+    ```bash
+    git clone https://github.com/your-username/online-quiz-system.git
+    ```
+2.  **Configuration**
+    *   Update `src/main/resources/application.properties` with your MySQL/H2 database credentials.
+3.  **Build & Run**
+    *   Import into IntelliJ IDEA / Eclipse.
+    *   Run `OnlineQuizApplication.java`.
 
 ---
 
-## 🔮 Future Enhancements
-
-* Role-based authentication (Spring Security)
-* Question randomization
-* Detailed performance analytics
-* REST API support for frontend integration
+## 🔗 Repository Links
+- **Frontend Repository:** [https://github.com/FardinMahadi/Online-Quiz-Management-System---Frontend](https://github.com/FardinMahadi/Online-Quiz-Management-System---Frontend)
+- **Backend Repository:** [https://github.com/FardinMahadi/Online-Quiz-Management-System---Backend](https://github.com/FardinMahadi/Online-Quiz-Management-System---Backend)
 
 ---
 

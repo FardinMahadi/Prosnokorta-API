@@ -1,0 +1,30 @@
+[
+    {
+        "id": 1,
+        "class": 10,
+        "subject": "Physics",
+        "chapter": 5,
+        "question": "What is the capital of Bangladesh?",
+        "options": [
+            "Dhaka",
+            "Chittagong",
+            "Khulna",
+            "Rajshahi"
+        ],
+        "answer": "Dhaka"
+    },
+    {
+        "id": 1,
+        "class": 10,
+        "subject": "Physics",
+        "chapter": 5,
+        "question": "What is the capital of Bangladesh?",
+        "options": [
+            "Dhaka",
+            "Chittagong",
+            "Khulna",
+            "Rajshahi"
+        ],
+        "answer": "Dhaka"
+    }
+]
