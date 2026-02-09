@@ -3,10 +3,9 @@ package com.quiz.service;
 import com.quiz.model.User;
 import com.quiz.dto.LoginRequest;
 import com.quiz.dto.RegisterRequest;
-
-import java.util.Map;
+import com.quiz.dto.LoginResponse;
 
 public interface AuthService {
     User register(RegisterRequest request);
-    Map<String, Object> login(LoginRequest request);
+    LoginResponse login(LoginRequest request);
 }
