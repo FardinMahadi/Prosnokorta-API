@@ -260,8 +260,9 @@ This architecture demonstrates a strong grasp of:
 ---
 
 ## 🔗 Repository Links
-- **Frontend Repository:** [https://github.com/FardinMahadi/Online-Quiz-Management-System---Frontend](https://github.com/FardinMahadi/Online-Quiz-Management-System---Frontend)
-- **Backend Repository:** [https://github.com/FardinMahadi/Online-Quiz-Management-System---Backend](https://github.com/FardinMahadi/Online-Quiz-Management-System---Backend)
+- **Web Frontend:** [https://github.com/FardinMahadi/Online-Quiz-Management-System-web-frontend](https://github.com/FardinMahadi/Online-Quiz-Management-System-web-frontend)
+- **Mobile Frontend (React Native):** [https://github.com/FardinMahadi/Online-Quiz-Management-System-mobile-frontend](https://github.com/FardinMahadi/Online-Quiz-Management-System-mobile-frontend)
+- **Backend:** [https://github.com/FardinMahadi/Online-Quiz-Management-System---backend](https://github.com/FardinMahadi/Online-Quiz-Management-System---backend)
 
 ---
 
