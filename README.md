@@ -1,4 +1,4 @@
-# Online Quiz Management System - Backend
+# QuizMaster-API (Online Quiz Management System)
 
 ## 📌 Project Overview
 
@@ -260,9 +260,9 @@ This architecture demonstrates a strong grasp of:
 ---
 
 ## 🔗 Repository Links
-- **Web Frontend:** [https://github.com/FardinMahadi/Online-Quiz-Management-System-web-frontend](https://github.com/FardinMahadi/Online-Quiz-Management-System-web-frontend)
-- **Mobile Frontend (React Native):** [https://github.com/FardinMahadi/Online-Quiz-Management-System-mobile-frontend](https://github.com/FardinMahadi/Online-Quiz-Management-System-mobile-frontend)
-- **Backend:** [https://github.com/FardinMahadi/Online-Quiz-Management-System---backend](https://github.com/FardinMahadi/Online-Quiz-Management-System---backend)
+- **Web Frontend:** [https://github.com/FardinMahadi/QuizMaster-Web](https://github.com/FardinMahadi/QuizMaster-Web)
+- **Mobile Frontend (React Native):** [https://github.com/FardinMahadi/QuizMaster-Mobile](https://github.com/FardinMahadi/QuizMaster-Mobile)
+- **Backend (API):** [https://github.com/FardinMahadi/QuizMaster-API](https://github.com/FardinMahadi/QuizMaster-API)
 
 ---
 
