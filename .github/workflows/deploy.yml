@@ -32,7 +32,15 @@ jobs:
           RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
         run: |
           if [ -z "$RENDER_DEPLOY_HOOK" ]; then
-            echo "RENDER_DEPLOY_HOOK_URL secret is not set. Skipping deployment."
-            exit 0
+            echo "::error::RENDER_DEPLOY_HOOK_URL secret is not set. Go to GitHub Repo Settings > Secrets and variables > Actions to add it."
+            exit 1
           fi
-          curl -X GET "$RENDER_DEPLOY_HOOK"
+          echo "Triggering deployment on Render..."
+          response=$(curl -s -w "%{http_code}" -X POST "$RENDER_DEPLOY_HOOK")
+          http_code=${response: -3}
+          if [ "$http_code" -ge 200 ] && [ "$http_code" -lt 300 ]; then
+            echo "Successfully triggered Render deployment."
+          else
+            echo "::error::Failed to trigger Render deployment. HTTP Status: $http_code"
+            exit 1
+          fi
