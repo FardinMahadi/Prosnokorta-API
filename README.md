@@ -269,7 +269,5 @@ This architecture demonstrates a strong grasp of:
 ## 👥 Team Members
 
 - **Mahadi Hasan Fardin** (@FardinMahadi) — *Team Leader*
-- **Tanim Saha** (@tanimsaha) - *Team Member*
-
 **Department:** ICT  
 **University:** Comilla University

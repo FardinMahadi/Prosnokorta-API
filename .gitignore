@@ -37,3 +37,8 @@ build/
 
 # MySQL Workbench
 *.mwb
+
+# Secrets and environment variables
+.env
+.env.local
+.env.*.local

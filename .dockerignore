@@ -1,0 +1,16 @@
+target/
+*.log
+.env
+.mvn/
+mvnw
+mvnw.cmd
+.git/
+.github/
+.vscode/
+HELP.md
+HOSTING.md
+README.md
+physics_seed.json
+chemistry_seed.json
+quiz.json
+QuizDB.mwb
