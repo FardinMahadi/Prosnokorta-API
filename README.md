@@ -1,8 +1,8 @@
-# QuizMaster-API (Online Quiz Management System)
+# Prosnokorta-API (Online Quiz Management System)
 
 ## 📌 Project Overview
 
-The **Online Quiz Management System** is a robust Java-based web application developed as part of the **Object-Oriented Programming (OOP)** course project. It serves as the backbone for managing quizzes, questions, students, and results, adhering to strict software engineering principles.
+The **Prosnokorta** is a robust Java-based web application developed as part of the **Object-Oriented Programming (OOP)** course project. It serves as the backbone for managing quizzes, questions, students, and results, adhering to strict software engineering principles.
 
 ---
 
@@ -260,9 +260,9 @@ This architecture demonstrates a strong grasp of:
 ---
 
 ## 🔗 Repository Links
-- **Web Frontend:** [https://github.com/FardinMahadi/QuizMaster-Web](https://github.com/FardinMahadi/QuizMaster-Web)
-- **Mobile Frontend (React Native):** [https://github.com/FardinMahadi/QuizMaster-Mobile](https://github.com/FardinMahadi/QuizMaster-Mobile)
-- **Backend (API):** [https://github.com/FardinMahadi/QuizMaster-API](https://github.com/FardinMahadi/QuizMaster-API)
+- **Web Frontend:** [https://github.com/FardinMahadi/Prosnokorta-Web](https://github.com/FardinMahadi/QuizMaster-Web)
+- **Mobile Frontend (React Native):** [https://github.com/FardinMahadi/Prosnokorta-Mobile](https://github.com/FardinMahadi/QuizMaster-Mobile)
+- **Backend (API):** [https://github.com/FardinMahadi/Prosnokorta-API](https://github.com/FardinMahadi/QuizMaster-API)
 
 ---
 

@@ -11,8 +11,8 @@
 	<groupId>com.quiz</groupId>
 	<artifactId>quiz-system</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>quiz-system</name>
-	<description>Online Quiz Management System Backend</description>
+	<name>prosnokorta-api</name>
+	<description>Prosnokorta Backend API</description>
 	<url/>
 	<properties>
 		<java.version>17</java.version>
