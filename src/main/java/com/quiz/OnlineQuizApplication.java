@@ -27,8 +27,18 @@ import java.util.Map;
 public class OnlineQuizApplication {
 
     public static void main(String[] args) {
-        Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
-        dotenv.entries().forEach(entry -> System.setProperty(entry.getKey(), entry.getValue()));
+        log.info("Starting OnlineQuizApplication...");
+        try {
+            Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
+            dotenv.entries().forEach(entry -> {
+                if (System.getProperty(entry.getKey()) == null) {
+                    System.setProperty(entry.getKey(), entry.getValue());
+                }
+            });
+            log.info("Environment variables loaded successfully.");
+        } catch (Exception e) {
+            log.warn("Could not load .env file, relying on system environment variables: {}", e.getMessage());
+        }
         
         SpringApplication.run(OnlineQuizApplication.class, args);
     }
@@ -41,6 +51,7 @@ public class OnlineQuizApplication {
             ObjectMapper objectMapper) {
         return args -> {
             log.info("--- STARTING DATABASE SEEDING ---");
+            log.info("Checking for existing data...");
             seedSubject("Physics", "PHYS-10", "physics_seed.json", subjectRepository, quizRepository, questionRepository, objectMapper);
             seedSubject("Chemistry", "CHEM-10", "chemistry_seed.json", subjectRepository, quizRepository, questionRepository, objectMapper);
             log.info("--- DATABASE SEEDING COMPLETED ---");
