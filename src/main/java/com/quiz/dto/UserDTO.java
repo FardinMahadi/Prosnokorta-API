@@ -10,7 +10,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginResponse {
-    private UserDTO user;
-    private String token; // Placeholder for future JWT use
+public class UserDTO {
+    private Long id;
+    private String name;
+    private String email;
+    private User.Role role;
 }

@@ -1,12 +1,14 @@
 package com.quiz.service.impl;
 
-import com.quiz.common.Constants;
 import com.quiz.model.User;
+import com.quiz.dto.UserDTO;
 import com.quiz.model.Student;
 import com.quiz.dto.LoginRequest;
+import com.quiz.common.Constants;
 import com.quiz.dto.LoginResponse;
 import com.quiz.service.AuthService;
 import com.quiz.dto.RegisterRequest;
+import com.quiz.exception.AuthException;
 import com.quiz.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +26,9 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public User register(RegisterRequest request) {
+    public LoginResponse register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException(Constants.ERR_EMAIL_EXISTS);
+            throw new AuthException(Constants.ERR_EMAIL_EXISTS);
         }
 
         Student student = new Student();
@@ -35,23 +37,36 @@ public class AuthServiceImpl implements AuthService {
         student.setPassword(request.getPassword()); // Should encode in real app
         student.setRole(User.Role.STUDENT);
 
-        return userRepository.save(student);
+        User savedUser = userRepository.save(student);
+        
+        return LoginResponse.builder()
+                .user(UserDTO.builder()
+                        .id(savedUser.getId())
+                        .name(savedUser.getName())
+                        .email(savedUser.getEmail())
+                        .role(savedUser.getRole())
+                        .build())
+                .token("dummy-token-for-now")
+                .build();
     }
 
     @Override
     public LoginResponse login(LoginRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException(Constants.ERR_USER_NOT_FOUND));
+                .orElseThrow(() -> new AuthException(Constants.ERR_USER_NOT_FOUND));
 
         if (!user.getPassword().equals(request.getPassword())) { // Simple check
-            throw new RuntimeException(Constants.ERR_INVALID_CREDENTIALS);
+            throw new AuthException(Constants.ERR_INVALID_CREDENTIALS);
         }
 
         return LoginResponse.builder()
-                .id(user.getId())
-                .name(user.getName())
-                .email(user.getEmail())
-                .role(user.getRole())
+                .user(UserDTO.builder()
+                        .id(user.getId())
+                        .name(user.getName())
+                        .email(user.getEmail())
+                        .role(user.getRole())
+                        .build())
+                .token("dummy-token-for-now")
                 .build();
     }
 }

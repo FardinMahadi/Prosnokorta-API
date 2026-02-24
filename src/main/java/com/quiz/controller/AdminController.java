@@ -39,6 +39,17 @@ public class AdminController {
         return ResponseEntity.ok(ApiResponse.success(subjectService.getAllSubjects(), Constants.MSG_SUBJECTS_RETRIEVED));
     }
 
+    @PutMapping("/subjects/{id}")
+    public ResponseEntity<ApiResponse<SubjectDto>> updateSubject(@PathVariable Long id, @RequestBody SubjectDto dto) {
+        return ResponseEntity.ok(ApiResponse.success(subjectService.updateSubject(id, dto), Constants.MSG_SUBJECT_UPDATED));
+    }
+
+    @DeleteMapping("/subjects/{id}")
+    public ResponseEntity<ApiResponse<Void>> deleteSubject(@PathVariable Long id) {
+        subjectService.deleteSubject(id);
+        return ResponseEntity.ok(ApiResponse.success(null, Constants.MSG_SUBJECT_DELETED));
+    }
+
     // Quizzes
     @PostMapping("/quizzes")
     public ResponseEntity<ApiResponse<QuizDto>> createQuiz(@RequestBody QuizDto dto) {
@@ -51,6 +62,17 @@ public class AdminController {
     @GetMapping("/quizzes/{subjectId}")
     public ResponseEntity<ApiResponse<List<QuizDto>>> getQuizzesBySubject(@PathVariable Long subjectId) {
         return ResponseEntity.ok(ApiResponse.success(quizService.getQuizzesBySubject(subjectId), Constants.MSG_QUIZZES_RETRIEVED));
+    }
+
+    @PutMapping("/quizzes/{id}")
+    public ResponseEntity<ApiResponse<QuizDto>> updateQuiz(@PathVariable Long id, @RequestBody QuizDto dto) {
+        return ResponseEntity.ok(ApiResponse.success(quizService.updateQuiz(id, dto), Constants.MSG_QUIZ_UPDATED));
+    }
+
+    @DeleteMapping("/quizzes/{id}")
+    public ResponseEntity<ApiResponse<Void>> deleteQuiz(@PathVariable Long id) {
+        quizService.deleteQuiz(id);
+        return ResponseEntity.ok(ApiResponse.success(null, Constants.MSG_QUIZ_DELETED));
     }
 
     // Questions
@@ -66,6 +88,13 @@ public class AdminController {
     @GetMapping("/quizzes/{quizId}/questions")
     public ResponseEntity<ApiResponse<List<QuestionDto>>> getQuestionsByQuiz(@PathVariable Long quizId) {
         return ResponseEntity.ok(ApiResponse.success(questionService.getQuestionsByQuiz(quizId), Constants.MSG_QUESTIONS_RETRIEVED));
+    }
+
+    @DeleteMapping("/quizzes/{quizId}/questions/{questionId}")
+    public ResponseEntity<ApiResponse<Void>> deleteQuestion(@PathVariable Long quizId, @PathVariable Long questionId) {
+        // quizId is present for URL consistency, but we only need questionId for now
+        questionService.deleteQuestion(questionId);
+        return ResponseEntity.ok(ApiResponse.success(null, Constants.MSG_QUESTION_DELETED));
     }
 
     // Results

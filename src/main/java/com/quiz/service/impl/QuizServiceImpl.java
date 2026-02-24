@@ -41,6 +41,29 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
+    public QuizDto updateQuiz(Long id, QuizDto dto) {
+        Quiz quiz = quizRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(Constants.ERR_QUIZ_NOT_FOUND));
+
+        quiz.setTitle(dto.getTitle());
+        quiz.setDescription(dto.getDescription());
+        quiz.setTotalMarks(dto.getTotalMarks());
+        quiz.setDurationMinutes(dto.getDurationMinutes());
+        quiz.setIsActive(dto.getIsActive());
+
+        Quiz updated = quizRepository.save(quiz);
+        return quizMapper.toDto(updated);
+    }
+
+    @Override
+    public void deleteQuiz(Long id) {
+        if (!quizRepository.existsById(id)) {
+            throw new ResourceNotFoundException(Constants.ERR_QUIZ_NOT_FOUND);
+        }
+        quizRepository.deleteById(id);
+    }
+
+    @Override
     public List<QuizDto> getQuizzesBySubject(Long subjectId) {
         return quizRepository.findBySubjectId(subjectId).stream()
                 .map(quizMapper::toDto)

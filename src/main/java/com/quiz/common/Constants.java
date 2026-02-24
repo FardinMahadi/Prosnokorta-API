@@ -18,6 +18,11 @@ public class Constants {
     public static final String MSG_RESULTS_RETRIEVED = "Results retrieved successfully";
     public static final String MSG_QUIZ_SUBMITTED = "Quiz submitted successfully";
     public static final String MSG_QUIZ_STARTED = "Quiz started successfully";
+    public static final String MSG_SUBJECT_UPDATED = "Subject updated successfully";
+    public static final String MSG_SUBJECT_DELETED = "Subject deleted successfully";
+    public static final String MSG_QUIZ_UPDATED = "Quiz updated successfully";
+    public static final String MSG_QUIZ_DELETED = "Quiz deleted successfully";
+    public static final String MSG_QUESTION_DELETED = "Question deleted successfully";
 
     // Error Messages
     public static final String ERR_EMAIL_EXISTS = "Email already active";
@@ -27,6 +32,7 @@ public class Constants {
     public static final String ERR_QUIZ_NOT_FOUND = "Quiz not found";
     public static final String ERR_RESULT_NOT_FOUND = "Result not found";
     public static final String ERR_STUDENT_NOT_FOUND = "Student not found";
+    public static final String ERR_QUESTION_NOT_FOUND = "Question not found";
 
     private Constants() {} // Prevent instantiation
 }

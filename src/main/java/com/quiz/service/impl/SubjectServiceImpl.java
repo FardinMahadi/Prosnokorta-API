@@ -1,6 +1,8 @@
 package com.quiz.service.impl;
 
+import com.quiz.common.Constants;
 import com.quiz.dto.SubjectDto;
+import com.quiz.exception.ResourceNotFoundException;
 import com.quiz.mapper.SubjectMapper;
 import com.quiz.model.Subject;
 import com.quiz.repository.SubjectRepository;
@@ -25,6 +27,27 @@ public class SubjectServiceImpl implements SubjectService {
         Subject subject = subjectMapper.toEntity(dto);
         Subject saved = subjectRepository.save(subject);
         return subjectMapper.toDto(saved);
+    }
+
+    @Override
+    public SubjectDto updateSubject(Long id, SubjectDto dto) {
+        Subject subject = subjectRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(Constants.ERR_SUBJECT_NOT_FOUND));
+        
+        subject.setName(dto.getName());
+        subject.setCode(dto.getCode());
+        subject.setDescription(dto.getDescription());
+        
+        Subject updated = subjectRepository.save(subject);
+        return subjectMapper.toDto(updated);
+    }
+
+    @Override
+    public void deleteSubject(Long id) {
+        if (!subjectRepository.existsById(id)) {
+            throw new ResourceNotFoundException(Constants.ERR_SUBJECT_NOT_FOUND);
+        }
+        subjectRepository.deleteById(id);
     }
 
     @Override

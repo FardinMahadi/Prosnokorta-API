@@ -25,10 +25,10 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<User>> register(@RequestBody RegisterRequest request) {
-        User user = authService.register(request);
+    public ResponseEntity<ApiResponse<LoginResponse>> register(@RequestBody RegisterRequest request) {
+        LoginResponse response = authService.register(request);
         return new ResponseEntity<>(
-            ApiResponse.success(user, Constants.MSG_REGISTER_SUCCESS),
+            ApiResponse.success(response, Constants.MSG_REGISTER_SUCCESS),
             HttpStatus.CREATED
         );
     }

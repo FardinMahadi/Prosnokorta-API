@@ -13,6 +13,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.quiz.model.Question;
 import com.quiz.model.Quiz;
 import com.quiz.model.Subject;
+import com.quiz.repository.UserRepository;
+import com.quiz.model.User;
+import com.quiz.model.Admin;
+import com.quiz.model.Student;
 import com.quiz.repository.QuestionRepository;
 import com.quiz.repository.QuizRepository;
 import com.quiz.repository.SubjectRepository;
@@ -48,14 +52,43 @@ public class OnlineQuizApplication {
             SubjectRepository subjectRepository,
             QuizRepository quizRepository,
             QuestionRepository questionRepository,
+            UserRepository userRepository,
             ObjectMapper objectMapper) {
         return args -> {
             log.info("--- STARTING DATABASE SEEDING ---");
+            seedUsers(userRepository);
             log.info("Checking for existing data...");
             seedSubject("Physics", "PHYS-10", "physics_seed.json", subjectRepository, quizRepository, questionRepository, objectMapper);
             seedSubject("Chemistry", "CHEM-10", "chemistry_seed.json", subjectRepository, quizRepository, questionRepository, objectMapper);
             log.info("--- DATABASE SEEDING COMPLETED ---");
         };
+    }
+
+    private void seedUsers(UserRepository userRepository) {
+        if (userRepository.existsByEmail("admin@quiz.com")) {
+            log.info("Admin user already exists, skipping user seeding.");
+            return;
+        }
+
+        log.info("Test users seeded successfully.");
+    }
+
+    private void saveAdmin(UserRepository userRepository, String name, String email, String password) {
+        Admin admin = new Admin();
+        admin.setName(name);
+        admin.setEmail(email);
+        admin.setPassword(password);
+        admin.setRole(User.Role.ADMIN);
+        userRepository.save(admin);
+    }
+
+    private void saveStudent(UserRepository userRepository, String name, String email, String password) {
+        Student student = new Student();
+        student.setName(name);
+        student.setEmail(email);
+        student.setPassword(password);
+        student.setRole(User.Role.STUDENT);
+        userRepository.save(student);
     }
 
     private void seedSubject(String subjectName, String subjectCode, String fileName,

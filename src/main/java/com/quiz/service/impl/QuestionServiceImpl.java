@@ -38,6 +38,14 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
+    public void deleteQuestion(Long id) {
+        if (!questionRepository.existsById(id)) {
+            throw new ResourceNotFoundException(Constants.ERR_QUESTION_NOT_FOUND);
+        }
+        questionRepository.deleteById(id);
+    }
+
+    @Override
     public List<QuestionDto> getQuestionsByQuiz(Long quizId) {
         return questionRepository.findByQuizId(quizId).stream()
                 .map(questionMapper::toDto)

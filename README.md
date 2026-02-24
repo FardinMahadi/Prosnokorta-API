@@ -256,6 +256,12 @@ This architecture demonstrates a strong grasp of:
 3.  **Build & Run**
     *   Import into IntelliJ IDEA / Eclipse.
     *   Run `OnlineQuizApplication.java`.
+4.  **Test Credentials**
+    The database is automatically seeded with these test accounts:
+    - **Admin**: `admin@quiz.com` / `admin123`
+    - **Admin**: `mahadifardin@quiz.com` / `admin123`
+    - **Student**: `student@quiz.com` / `student123`
+    - **Student**: `fardin@quiz.com` / `student123`
 
 ---
 
