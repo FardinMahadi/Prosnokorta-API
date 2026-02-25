@@ -34,6 +34,9 @@ public class Result {
     @Column(nullable = false)
     private LocalDateTime submittedAt;
 
+    @OneToMany(mappedBy = "result", cascade = CascadeType.ALL, orphanRemoval = true)
+    private java.util.List<ResultAnswer> answers = new java.util.ArrayList<>();
+
     @PrePersist
     protected void onCreate() {
         submittedAt = LocalDateTime.now();

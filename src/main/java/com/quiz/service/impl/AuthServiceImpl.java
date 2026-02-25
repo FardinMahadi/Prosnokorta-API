@@ -13,16 +13,19 @@ import com.quiz.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
 @Transactional
 public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AuthServiceImpl(UserRepository userRepository) {
+    public AuthServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -34,7 +37,7 @@ public class AuthServiceImpl implements AuthService {
         Student student = new Student();
         student.setName(request.getName());
         student.setEmail(request.getEmail());
-        student.setPassword(request.getPassword()); // Should encode in real app
+        student.setPassword(passwordEncoder.encode(request.getPassword()));
         student.setRole(User.Role.STUDENT);
 
         User savedUser = userRepository.save(student);
@@ -46,7 +49,7 @@ public class AuthServiceImpl implements AuthService {
                         .email(savedUser.getEmail())
                         .role(savedUser.getRole())
                         .build())
-                .token("dummy-token-for-now")
+                .token(java.util.Base64.getEncoder().encodeToString(savedUser.getEmail().getBytes()))
                 .build();
     }
 
@@ -55,7 +58,7 @@ public class AuthServiceImpl implements AuthService {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new AuthException(Constants.ERR_USER_NOT_FOUND));
 
-        if (!user.getPassword().equals(request.getPassword())) { // Simple check
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new AuthException(Constants.ERR_INVALID_CREDENTIALS);
         }
 
@@ -66,7 +69,7 @@ public class AuthServiceImpl implements AuthService {
                         .email(user.getEmail())
                         .role(user.getRole())
                         .build())
-                .token("dummy-token-for-now")
+                .token(java.util.Base64.getEncoder().encodeToString(user.getEmail().getBytes()))
                 .build();
     }
 }

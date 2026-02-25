@@ -70,6 +70,8 @@ public class OnlineQuizApplication {
             return;
         }
 
+        saveAdmin(userRepository, "Admin User", "admin@quiz.com", "admin123");
+        saveStudent(userRepository, "Student User", "student@quiz.com", "student123");
         log.info("Test users seeded successfully.");
     }
 
