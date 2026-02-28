@@ -65,32 +65,35 @@ public class OnlineQuizApplication {
     }
 
     private void seedUsers(UserRepository userRepository) {
-        if (userRepository.existsByEmail("admin@quiz.com")) {
-            log.info("Admin user already exists, skipping user seeding.");
-            return;
+        saveAdminIfMissing(userRepository, "Admin User", "admin@quiz.com", "admin123");
+        saveAdminIfMissing(userRepository, "Mahadi Hasan Fardin", "mahadifardin@quiz.com", "admin123");
+        saveStudentIfMissing(userRepository, "Student User", "student@quiz.com", "student123");
+        saveStudentIfMissing(userRepository, "Fardin", "fardin@quiz.com", "student123");
+        log.info("Test users check and seeding completed.");
+    }
+
+    private void saveAdminIfMissing(UserRepository userRepository, String name, String email, String password) {
+        if (!userRepository.existsByEmail(email)) {
+            Admin admin = new Admin();
+            admin.setName(name);
+            admin.setEmail(email);
+            admin.setPassword(password);
+            admin.setRole(User.Role.ADMIN);
+            userRepository.save(admin);
+            log.info("Seeded Admin: {}", email);
         }
-
-        saveAdmin(userRepository, "Admin User", "admin@quiz.com", "admin123");
-        saveStudent(userRepository, "Student User", "student@quiz.com", "student123");
-        log.info("Test users seeded successfully.");
     }
 
-    private void saveAdmin(UserRepository userRepository, String name, String email, String password) {
-        Admin admin = new Admin();
-        admin.setName(name);
-        admin.setEmail(email);
-        admin.setPassword(password);
-        admin.setRole(User.Role.ADMIN);
-        userRepository.save(admin);
-    }
-
-    private void saveStudent(UserRepository userRepository, String name, String email, String password) {
-        Student student = new Student();
-        student.setName(name);
-        student.setEmail(email);
-        student.setPassword(password);
-        student.setRole(User.Role.STUDENT);
-        userRepository.save(student);
+    private void saveStudentIfMissing(UserRepository userRepository, String name, String email, String password) {
+        if (!userRepository.existsByEmail(email)) {
+            Student student = new Student();
+            student.setName(name);
+            student.setEmail(email);
+            student.setPassword(password);
+            student.setRole(User.Role.STUDENT);
+            userRepository.save(student);
+            log.info("Seeded Student: {}", email);
+        }
     }
 
     private void seedSubject(String subjectName, String subjectCode, String fileName,
