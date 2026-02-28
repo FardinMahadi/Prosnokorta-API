@@ -252,10 +252,17 @@ This architecture demonstrates a strong grasp of:
     git clone https://github.com/your-username/online-quiz-system.git
     ```
 2.  **Configuration**
-    *   Update `src/main/resources/application.properties` with your MySQL/H2 database credentials.
+    *   Create a `.env` file from the `.env.example` template:
+        - Windows: `copy .env.example .env`
+        - Linux/macOS: `cp .env.example .env`
+    *   Update `.env` with your MySQL database credentials.
 3.  **Build & Run**
-    *   Import into IntelliJ IDEA / Eclipse.
-    *   Run `OnlineQuizApplication.java`.
+    *   **Option 1: Terminal (Maven Wrapper)**
+        - Windows: `.\mvnw spring-boot:run`
+        - Linux/macOS: `./mvnw spring-boot:run`
+    *   **Option 2: IDE**
+        - Import into IntelliJ IDEA / Eclipse.
+        - Run `OnlineQuizApplication.java`.
 4.  **Test Credentials**
     The database is automatically seeded with these test accounts:
     - **Admin**: `admin@quiz.com` / `admin123`
